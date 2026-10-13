@@ -32,6 +32,12 @@ class UserDAO {
         }
     }
     fun save(user: User){
+        transaction {
+            Users.insert {
+                it[name] = user.name
+                it[email] = user.email
+            }
+        }
     }
     fun findByEmail(email: String) :User?{
         return transaction {
