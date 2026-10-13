@@ -24,6 +24,12 @@ object HealthTrackerController {
         userDao.save(user)
         ctx.json(user)
     }
+    fun getUserByEmail(ctx: Context){
+        val user = userDao.findByEmail(ctx.pathParam("user-email"))
+        if (user != null) {
+            ctx.json(user)
+        }
+    }
 
 
 }

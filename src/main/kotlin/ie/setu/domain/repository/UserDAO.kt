@@ -33,6 +33,13 @@ class UserDAO {
     }
     fun save(user: User){
     }
+    fun findByEmail(email: String) :User?{
+        return transaction {
+            Users.selectAll().where { Users.email eq email }
+                .map{mapToUser(it)}
+                .firstOrNull()
+        }
+    }
 
 
 }
