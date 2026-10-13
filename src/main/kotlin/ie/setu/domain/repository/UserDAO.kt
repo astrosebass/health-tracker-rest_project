@@ -6,6 +6,7 @@ import ie.setu.domain.db.Users
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.jetbrains.exposed.sql.update
 
 class UserDAO {
 
@@ -34,7 +35,7 @@ class UserDAO {
     }
     fun save(user: User){
         return transaction {
-            Users.insert {
+            Users.update {
                 it[name] = user.name
                 it[email] = user.email
             }
