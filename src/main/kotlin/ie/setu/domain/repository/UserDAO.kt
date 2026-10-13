@@ -3,6 +3,7 @@ package ie.setu.domain.repository
 import ie.setu.utils.mapToUser
 import ie.setu.domain.User
 import ie.setu.domain.db.Users
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -32,7 +33,7 @@ class UserDAO {
         }
     }
     fun save(user: User){
-        transaction {
+        return transaction {
             Users.insert {
                 it[name] = user.name
                 it[email] = user.email
