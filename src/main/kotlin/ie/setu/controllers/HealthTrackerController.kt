@@ -20,13 +20,23 @@ object HealthTrackerController {
     }
     fun addUser(ctx: Context){
 
+        val name = ctx.formParam("name")
+        val email = ctx.formParam("email")
+
+        if (name == null || email == null) {
+            ctx.status(400).result("Faltan name o email")
+            return
+        }
+
         val user = User(
             id = 0,
-            name = ctx.formParam("name")!!,
-            email = ctx.formParam("email")!!
+            name = name,
+            email = email
         )
 
         userDao.save(user)
+
+        ctx.status(201).json(user)
     }
     fun getUserByEmail(ctx: Context){
         val user = userDao.findByEmail(ctx.pathParam("user-email"))
