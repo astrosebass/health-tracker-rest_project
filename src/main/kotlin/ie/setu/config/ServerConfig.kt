@@ -20,7 +20,7 @@ class ServerConfig {
 
             registerRoutes(config)
 
-        }.start(7001)
+        }.start(getRemoteAssignedPort())
 
 
         return app
@@ -30,6 +30,12 @@ class ServerConfig {
         config.routes.get("/api/users", HealthTrackerController::getAllUsers)
         config.routes.get("/api/users/{user-id}", HealthTrackerController::getUserByUserId)
         config.routes.post("/api/users", HealthTrackerController::addUser)
+    }
+    private fun getRemoteAssignedPort(): Int {
+        val remotePort = System.getenv("PORT")
+        return if (remotePort != null) {
+            Integer.parseInt(remotePort)
+        } else 8080
     }
 
 

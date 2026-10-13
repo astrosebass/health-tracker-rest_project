@@ -25,4 +25,5 @@ object HealthTrackerController {
         ctx.json(user)
     }
 
+
 }
