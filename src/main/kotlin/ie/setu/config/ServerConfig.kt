@@ -29,7 +29,7 @@ class ServerConfig {
     private fun registerRoutes(config: JavalinConfig) {
         config.routes.get("/api/users", HealthTrackerController::getAllUsers)
         config.routes.get("/api/users/{user-id}", HealthTrackerController::getUserByUserId)
-        config.routes.get("/api/users/{user-email}", HealthTrackerController::getUserByEmail)
+        config.routes.get("/api/users/email/{user-email}", HealthTrackerController::getUserByEmail)
         config.routes.post("/api/users", HealthTrackerController::addUser)
     }
     private fun getRemoteAssignedPort(): Int {
