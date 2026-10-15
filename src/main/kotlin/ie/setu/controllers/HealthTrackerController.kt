@@ -20,14 +20,15 @@ object HealthTrackerController {
     }
     fun addUser(ctx: Context){
 
-        val name = ctx.formParam("name")
-        val email = ctx.formParam("email")
+        val email = ctx.pathParam( "email")
+        val name = ctx.pathParam( "name")
+        //val name = ctx.formParam("name")
+        //val email = ctx.formParam("email")
 
         if (name == null || email == null) {
             ctx.status(400).result("Faltan name o email")
             return
         }
-
         val user = User(
             id = 0,
             name = name,
