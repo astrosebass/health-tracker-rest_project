@@ -69,5 +69,10 @@ object HealthTrackerController {
         }
     }
 
+    fun DeleteUser(ctx: Context) {
+        val user = userDao.delete(ctx.pathParam("user-id").toInt())
+
+    }
+
 
 }
