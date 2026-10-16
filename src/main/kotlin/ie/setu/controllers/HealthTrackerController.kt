@@ -53,6 +53,8 @@ object HealthTrackerController {
 
     }
     fun updateUser(ctx: Context) {
+
+        val id = ctx.pathParam("user-id").toInt()
         val body = jacksonObjectMapper().readTree(ctx.body())
 
         val name = body.get("name")?.asText()
@@ -64,14 +66,18 @@ object HealthTrackerController {
         }
 
         val user = User(
-            id = 0,
+            id = id,
             name = name,
             email = email
         )
 
-        userDao.update(ctx.pathParam("user-id").toInt(), user)
+        val updatedRows = userDao.update(id, user)
 
-        ctx.status(201).json(user)
+        if (updatedRows > 0) {
+            ctx.status(200).json(user)
+        } else {
+            ctx.status(404).result("User not found")
+        }
     }
 
 
