@@ -31,7 +31,7 @@ class ServerConfig {
         config.routes.get("/api/users/{user-id}", HealthTrackerController::getUserByUserId)
         config.routes.get("/api/users/email/{user-email}", HealthTrackerController::getUserByEmail)
         config.routes.post("/api/users", HealthTrackerController::addUser)
-        config.routes.post("/api/users/delete", HealthTrackerController::DeleteUser)
+        config.routes.post("/api/users", HealthTrackerController::DeleteUser)
     }
     private fun getRemoteAssignedPort(): Int {
         val remotePort = System.getenv("PORT")
