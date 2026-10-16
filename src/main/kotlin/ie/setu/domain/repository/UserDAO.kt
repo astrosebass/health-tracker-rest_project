@@ -34,8 +34,8 @@ class UserDAO {
         }
     }
     fun save(user: User){
-        return transaction {
-            Users.update {
+        transaction {
+            Users.insert {
                 it[name] = user.name
                 it[email] = user.email
             }

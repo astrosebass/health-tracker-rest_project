@@ -18,7 +18,7 @@ object HealthTrackerController {
             ctx.json(user)
         }
     }
-    fun addUser(ctx: Context){
+    /* fun addUser(ctx: Context){
 
         val email = ctx.pathParam( "email")
         val name = ctx.pathParam( "name")
@@ -38,7 +38,30 @@ object HealthTrackerController {
         userDao.save(user)
 
         ctx.status(201).json(user)
+    }*/
+
+    fun addUser(ctx: Context) {
+        val body = jacksonObjectMapper().readTree(ctx.body())
+
+        val name = body.get("name")?.asText()
+        val email = body.get("email")?.asText()
+
+        if (name.isNullOrBlank() || email.isNullOrBlank()) {
+            ctx.status(400).result("Faltan name o email")
+            return
+        }
+
+        val user = User(
+            id = 0,
+            name = name,
+            email = email
+        )
+
+        userDao.save(user)
+
+        ctx.status(201).json(user)
     }
+
     fun getUserByEmail(ctx: Context){
         val user = userDao.findByEmail(ctx.pathParam("user-email"))
         if (user != null) {
