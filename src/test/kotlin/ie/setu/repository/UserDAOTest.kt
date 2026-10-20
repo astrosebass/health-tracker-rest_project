@@ -43,11 +43,14 @@ class UserDAOTest {
         transaction {
 
             //Arrange - create and populate table with three users
-            SchemaUtils.create(Users)
-            val userDAO = UserDAO()
-            userDAO.save(user1)
-            userDAO.save(user2)
-            userDAO.save(user3)
+            //SchemaUtils.create(Users)
+            //val userDAO = UserDAO()
+            //userDAO.save(user1)
+            //userDAO.save(user2)
+            //userDAO.save(user3)
+
+            //Arrange - create and populate table with three users
+            val userDAO = populateUserTable()
 
             //Act & Assert
             assertEquals(3, userDAO.getAll().size)
@@ -62,11 +65,14 @@ class UserDAOTest {
         transaction {
 
             //Arrange - create and populate table with three users
-            SchemaUtils.create(Users)
-            val userDAO = UserDAO()
-            userDAO.save(user1)
-            userDAO.save(user2)
-            userDAO.save(user3)
+            //SchemaUtils.create(Users)
+            //val userDAO = UserDAO()
+            //userDAO.save(user1)
+            //userDAO.save(user2)
+            //userDAO.save(user3)
+
+            //Arrange - create and populate table with three users
+            val userDAO = populateUserTable()
 
             //Act & Assert
             assertEquals(3, userDAO.getAll().size)
@@ -77,11 +83,14 @@ class UserDAOTest {
         transaction {
 
             //Arrange - create and populate table with three users
-            SchemaUtils.create(Users)
-            val userDAO = UserDAO()
-            userDAO.save(user1)
-            userDAO.save(user2)
-            userDAO.save(user3)
+            //SchemaUtils.create(Users)
+            //val userDAO = UserDAO()
+            //userDAO.save(user1)
+            //userDAO.save(user2)
+            //userDAO.save(user3)
+
+            //Arrange - create and populate table with three users
+            val userDAO = populateUserTable()
 
             //Act & Assert
             assertEquals(null, userDAO.findById(4))
@@ -91,11 +100,14 @@ class UserDAOTest {
     fun `get user by id that exists, results in a correct user returned`() {
         transaction {
             //Arrange - create and populate table with three users
-            SchemaUtils.create(Users)
-            val userDAO = UserDAO()
-            userDAO.save(user1)
-            userDAO.save(user2)
-            userDAO.save(user3)
+            //SchemaUtils.create(Users)
+            //val userDAO = UserDAO()
+            //userDAO.save(user1)
+            //userDAO.save(user2)
+            //userDAO.save(user3)
+
+            //Arrange - create and populate table with three users
+            val userDAO = populateUserTable()
 
             //Act & Assert
             assertEquals(user3, userDAO.findById(user3.id))
