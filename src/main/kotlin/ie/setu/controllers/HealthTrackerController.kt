@@ -186,5 +186,12 @@ object HealthTrackerController {
         }
     }
 
+    fun getActivityById(ctx: Context) {
+        val activity = activityDAO.findByActivityId(ctx.pathParam("activities-id").toInt())
+        if (activity != null) {
+            ctx.json(activity)
+        }
+    }
+
 }
 
