@@ -38,7 +38,7 @@ class ServerConfig {
         config.routes.get("/api/users/{user-id}/activities", HealthTrackerController::getActivitiesByUserId)
 
         config.routes.post("/api/users/{user-id}/activities", HealthTrackerController::deleteActivitiesByUserId)
-        //config.routes.post("/api/users/{user-id}/activities/{activities-id}", HealthTrackerController::DeleteUserIDSpecificActivity)
+        config.routes.post("/api/activities/{activities-id}", HealthTrackerController::deleteSpecificActivity)
         //config.routes.put("/api/activities/{activities-id}", HealthTrackerController::updateActivity)
         //config.routes.get("/api/activities/{activities-id}", HealthTrackerController::getActivityByID)
 

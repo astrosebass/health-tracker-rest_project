@@ -59,5 +59,12 @@ class ActivityDAO {
             }
         }
     }
+    fun deleteSpecificActivity(activityId: Int): Int {
+        return transaction {
+            Activities.deleteWhere {
+                Activities.id eq activityId
+            }
+        }
+    }
 
 }
