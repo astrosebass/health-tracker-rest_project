@@ -134,5 +134,18 @@ object HealthTrackerController {
         )
     }
 
+    fun deleteSpecificActivity(ctx: Context) {
+        val userId = ctx.pathParam("activity-id").toInt()
+
+        val deletedActivities = activityDAO.deleteSpecificActivity(userId)
+
+        ctx.status(200).json(
+            mapOf(
+                "message" to "Activities deleted successfully",
+                "deleted" to deletedActivities
+            )
+        )
+    }
+
 }
 
