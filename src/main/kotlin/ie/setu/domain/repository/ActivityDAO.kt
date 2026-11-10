@@ -52,9 +52,11 @@ class ActivityDAO {
         }
     }
 
-    fun delete(userId: Int):Int{
-        return transaction{
-            Activities.deleteWhere{ Activities.userId eq userId }
+    fun deleteAllByUserId(userId: Int): Int {
+        return transaction {
+            Activities.deleteWhere {
+                Activities.userId eq userId
+            }
         }
     }
 

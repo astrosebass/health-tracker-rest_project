@@ -121,8 +121,17 @@ object HealthTrackerController {
         ctx.json(activity)
     }
 
-    fun DeleteActivitiesByUserID(ctx: Context) {
-        activityDAO.delete(ctx.pathParam("user-id").toInt())
+    fun deleteActivitiesByUserId(ctx: Context) {
+        val userId = ctx.pathParam("user-id").toInt()
+
+        val deletedActivities = activityDAO.deleteAllByUserId(userId)
+
+        ctx.status(200).json(
+            mapOf(
+                "message" to "Activities deleted successfully",
+                "deleted" to deletedActivities
+            )
+        )
     }
 
 }
