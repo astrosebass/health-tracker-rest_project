@@ -121,5 +121,9 @@ object HealthTrackerController {
         ctx.json(activity)
     }
 
+    fun DeleteActivitiesByUserID(ctx: Context) {
+        activityDAO.delete(ctx.pathParam("user-id").toInt())
+    }
 
 }
+

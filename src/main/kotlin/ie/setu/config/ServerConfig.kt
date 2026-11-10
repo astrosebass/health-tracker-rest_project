@@ -37,6 +37,11 @@ class ServerConfig {
         config.routes.post("/api/activities", HealthTrackerController::addActivity)
         config.routes.get("/api/users/{user-id}/activities", HealthTrackerController::getActivitiesByUserId)
 
+        config.routes.post("/api/users/{user-id}/activities", HealthTrackerController::DeleteActivitiesByUserID)
+        //config.routes.post("/api/users/{user-id}/activities/{activities-id}", HealthTrackerController::DeleteUserIDSpecificActivity)
+        //config.routes.put("/api/activities/{activities-id}", HealthTrackerController::updateActivity)
+        //config.routes.get("/api/activities/{activities-id}", HealthTrackerController::getActivityByID)
+
     }
     private fun getRemoteAssignedPort(): Int {
         val remotePort = System.getenv("PORT")
