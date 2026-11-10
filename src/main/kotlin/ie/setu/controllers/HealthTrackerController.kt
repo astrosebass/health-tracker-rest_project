@@ -1,13 +1,14 @@
 package ie.setu.controllers
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.datatype.joda.JodaModule
-import ie.setu.domain.repository.UserDAO
-import io.javalin.http.Context
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import ie.setu.domain.User
 import ie.setu.domain.Activity
+import ie.setu.domain.User
 import ie.setu.domain.repository.ActivityDAO
+import ie.setu.domain.repository.UserDAO
+import io.javalin.http.Context
+import org.joda.time.DateTime
 
 
 object HealthTrackerController {
@@ -135,9 +136,9 @@ object HealthTrackerController {
     }
 
     fun deleteSpecificActivity(ctx: Context) {
-        val userId = ctx.pathParam("activity-id").toInt()
+        val activityId = ctx.pathParam("activities-id").toInt()
 
-        val deletedActivities = activityDAO.deleteSpecificActivity(userId)
+        val deletedActivities = activityDAO.deleteSpecificActivity(activityId)
 
         ctx.status(200).json(
             mapOf(
@@ -145,6 +146,44 @@ object HealthTrackerController {
                 "deleted" to deletedActivities
             )
         )
+    }
+    fun updateActivity(ctx: Context) {
+
+        val id = ctx.pathParam("activities-id").toInt()
+        val body = jacksonObjectMapper().readTree(ctx.body())
+
+        val description = body.get("description")?.asText()
+        val duration = body.get("duration")?.asDouble()
+        val calories = body.get("calories")?.asInt()
+        val started = body.get("started")?.asText()
+        val userId = body.get("userId")?.asInt()
+
+        if (description.isNullOrBlank() ||
+            duration == null ||
+            calories == null ||
+            started.isNullOrBlank() ||
+            userId == null
+        ) {
+            ctx.status(400).result("Missing values")
+            return
+        }
+
+        val activity = Activity(
+            id = id,
+            description = description,
+            duration = duration,
+            calories = calories,
+            started = DateTime.parse(started),
+            userId = userId
+        )
+
+        val updatedRows = activityDAO.update(id, activity)
+
+        if (updatedRows > 0) {
+            ctx.status(200).json(activity)
+        } else {
+            ctx.status(404).result("Activity not found")
+        }
     }
 
 }

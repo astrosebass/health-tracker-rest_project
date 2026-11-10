@@ -1,12 +1,14 @@
 package ie.setu.domain.repository
 
 import ie.setu.domain.Activity
+import ie.setu.domain.User
 import ie.setu.domain.db.Activities
 import ie.setu.domain.db.Users
 import ie.setu.utils.mapToActivity
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.joda.time.DateTime
 
 class ActivityDAO {
 
@@ -66,5 +68,19 @@ class ActivityDAO {
             }
         }
     }
+
+    fun update(id: Int, activity: Activity): Int {
+        return transaction {
+            Activities.update({ Activities.id eq id }) {
+                it[description] = activity.description
+                it[duration] = activity.duration
+                it[calories] = activity.calories
+                it[started] = activity.started
+                it[userId] = activity.userId
+            }
+        }
+    }
+
+
 
 }
