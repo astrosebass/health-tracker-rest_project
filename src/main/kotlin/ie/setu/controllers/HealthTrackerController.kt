@@ -7,14 +7,15 @@ import ie.setu.domain.Activity
 import ie.setu.domain.User
 import ie.setu.domain.repository.ActivityDAO
 import ie.setu.domain.repository.UserDAO
+import ie.setu.utils.jsonToObject
 import io.javalin.http.Context
 import org.joda.time.DateTime
 
 
 object HealthTrackerController {
 
-    private val userDao = UserDAO()
-    private val activityDAO = ActivityDAO()
+    val userDao = UserDAO()
+    val activityDAO = ActivityDAO()
 
     fun getAllUsers(ctx: Context) {
         ctx.json(userDao.getAll())
@@ -27,21 +28,8 @@ object HealthTrackerController {
     }
 
     fun addUser(ctx: Context) {
-        val body = jacksonObjectMapper().readTree(ctx.body())
 
-        val name = body.get("name")?.asText()
-        val email = body.get("email")?.asText()
-
-        if (name.isNullOrBlank() || email.isNullOrBlank()) {
-            ctx.status(400).result("Faltan name o email")
-            return
-        }
-
-        val user = User(
-            id = 0,
-            name = name,
-            email = email
-        )
+        val user = jsonToObject<User>(ctx.body())
 
         userDao.save(user)
 
@@ -62,21 +50,8 @@ object HealthTrackerController {
     fun updateUser(ctx: Context) {
 
         val id = ctx.pathParam("user-id").toInt()
-        val body = jacksonObjectMapper().readTree(ctx.body())
 
-        val name = body.get("name")?.asText()
-        val email = body.get("email")?.asText()
-
-        if (name.isNullOrBlank() || email.isNullOrBlank()) {
-            ctx.status(400).result("Faltan name o email")
-            return
-        }
-
-        val user = User(
-            id = id,
-            name = name,
-            email = email
-        )
+        val user = jsonToObject<User>(ctx.body()).copy(id = id)
 
         val updatedRows = userDao.update(id, user)
 
@@ -114,10 +89,7 @@ object HealthTrackerController {
 
     fun addActivity(ctx: Context) {
         //mapper handles the serialisation of Joda date into a String.
-        val mapper = jacksonObjectMapper()
-            .registerModule(JodaModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        val activity = mapper.readValue<Activity>(ctx.body())
+        val activity = jsonToObject<Activity>(ctx.body())
         activityDAO.save(activity)
         ctx.json(activity)
     }
@@ -149,33 +121,9 @@ object HealthTrackerController {
     }
     fun updateActivity(ctx: Context) {
 
-        val id = ctx.pathParam("activities-id").toInt()
-        val body = jacksonObjectMapper().readTree(ctx.body())
+        val id = ctx.pathParam("activity-id").toInt()
 
-        val description = body.get("description")?.asText()
-        val duration = body.get("duration")?.asDouble()
-        val calories = body.get("calories")?.asInt()
-        val started = body.get("started")?.asText()
-        val userId = body.get("userId")?.asInt()
-
-        if (description.isNullOrBlank() ||
-            duration == null ||
-            calories == null ||
-            started.isNullOrBlank() ||
-            userId == null
-        ) {
-            ctx.status(400).result("Missing values")
-            return
-        }
-
-        val activity = Activity(
-            id = id,
-            description = description,
-            duration = duration,
-            calories = calories,
-            started = DateTime.parse(started),
-            userId = userId
-        )
+        val activity = jsonToObject<Activity>(ctx.body()).copy(id = id)
 
         val updatedRows = activityDAO.update(id, activity)
 
