@@ -35,12 +35,12 @@ class UserDAO {
                 .firstOrNull()
         }
     }
-    fun save(user: User){
-        transaction {
+    fun save(user: User) : Int?{
+        return transaction {
             Users.insert {
                 it[name] = user.name
                 it[email] = user.email
-            }
+            } get Users.id
         }
     }
     fun findByEmail(email: String) :User?{
