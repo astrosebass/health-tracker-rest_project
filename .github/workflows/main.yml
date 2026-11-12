@@ -36,16 +36,14 @@ jobs:
         OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
       run: |
         oc login $OPENSHIFT_API_URL --token=$OPENSHIFT_TOKEN --insecure-skip-tls-verify=true
-    - name: Set project to health-tracker-rest-project
-
+    - name: Set project to agile-26-sebastian-ulloa
       run: |
-        oc project health-tracker-rest-project
-
+        oc project agile-26-sebastian-ulloa
     - name: Build and deploy the app to OpenShift
       run: |
         # OpenShift setup uses Source-to-Image (S2I) 
-        oc start-build health-tracker-rest_project --from-dir=target/ --follow
+        oc start-build health-tracker-rest-project --from-dir=target/ --follow
     
     - name: Check deployment status
       run: |
-        oc rollout status deployment/health-tracker-rest_project
+        oc rollout status deployment/health-tracker-rest-project
