@@ -36,10 +36,10 @@ jobs:
         OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
       run: |
         oc login $OPENSHIFT_API_URL --token=$OPENSHIFT_TOKEN --insecure-skip-tls-verify=true
-    - name: Set project to health-tracker-rest-project
+    - name: Set project to health-tracker_rest-project
 
       run: |
-        oc project health-tracker-rest-project
+        oc project health-tracker-rest_project
 
     - name: Build and deploy the app to OpenShift
       run: |
