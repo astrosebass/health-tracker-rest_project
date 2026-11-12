@@ -36,10 +36,10 @@ jobs:
         OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
       run: |
         oc login $OPENSHIFT_API_URL --token=$OPENSHIFT_TOKEN --insecure-skip-tls-verify=true
-    - name: Set project to agile-26-sebastian-ulloa
+    - name: Set project to health-tracker-rest-project
 
       run: |
-        oc project agile-26-sebastian-ulloa
+        oc project health-tracker-rest-project
 
     - name: Build and deploy the app to OpenShift
       run: |
