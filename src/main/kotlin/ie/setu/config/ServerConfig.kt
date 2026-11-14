@@ -5,6 +5,8 @@ import ie.setu.utils.jsonObjectMapper
 import io.javalin.json.JavalinJackson
 import io.javalin.Javalin
 import io.javalin.config.JavalinConfig
+import io.javalin.plugin.bundled.JavalinVuePlugin
+import io.javalin.vue.VueComponent
 
 class ServerConfig {
 
@@ -14,6 +16,12 @@ class ServerConfig {
             config.jsonMapper(
                 JavalinJackson(jsonObjectMapper())
             )
+            config.registerPlugin(
+                JavalinVuePlugin { vue ->
+                    vue.vueInstanceNameInJs = "app"
+                }
+            )
+            config.staticFiles.add("/META-INF/resources")
             config.routes.exception(Exception::class.java) { e, ctx ->
                 e.printStackTrace()
             }
@@ -37,11 +45,15 @@ class ServerConfig {
         config.routes.post("/api/activities", HealthTrackerController::addActivity)
         config.routes.get("/api/users/{user-id}/activities", HealthTrackerController::getActivitiesByUserId)
 
-        config.routes.post("/api/users/{user-id}/activities", HealthTrackerController::deleteActivitiesByUserId)
-        config.routes.post("/api/activities/{activities-id}", HealthTrackerController::deleteSpecificActivity)
-        config.routes.put("/api/activities/{activities-id}", HealthTrackerController::updateActivity)
+        config.routes.delete("/api/users/{user-id}/activities", HealthTrackerController::deleteActivitiesByUserId)
+        config.routes.delete("/api/activities/{activities-id}", HealthTrackerController::deleteSpecificActivity)
+        config.routes.patch("/api/activities/{activities-id}", HealthTrackerController::updateActivity)
         config.routes.get("/api/activities/{activities-id}", HealthTrackerController::getActivityById)
 
+        // The @routeComponent that we added in layout.html earlier will be replaced
+        // by the String inside the VueComponent. This means a call to / will load
+        // the layout and display our <home-page> component.
+        config.routes.get("/", VueComponent("<home-page></home-page>"))
     }
     private fun getRemoteAssignedPort(): Int {
         val remotePort = System.getenv("PORT")
