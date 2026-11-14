@@ -54,9 +54,11 @@ class ServerConfig {
         // by the String inside the VueComponent. This means a call to / will load
         // the layout and display our <home-page> component.
         config.routes.get("/", VueComponent("<home-page></home-page>"))
+
+        config.routes.get("/users", VueComponent("<user-overview></user-overview>"))
     }
     private fun getRemoteAssignedPort(): Int {
-        val remotePort = System.getenv("PORT ")
+        val remotePort = System.getenv("PORT")
         return if (remotePort != null) {
             Integer.parseInt(remotePort)
         } else 8080
