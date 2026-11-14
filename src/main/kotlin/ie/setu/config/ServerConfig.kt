@@ -56,7 +56,7 @@ class ServerConfig {
         config.routes.get("/", VueComponent("<home-page></home-page>"))
     }
     private fun getRemoteAssignedPort(): Int {
-        val remotePort = System.getenv("PORT")
+        val remotePort = System.getenv("PORT ")
         return if (remotePort != null) {
             Integer.parseInt(remotePort)
         } else 8080
