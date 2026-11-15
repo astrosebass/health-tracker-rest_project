@@ -1,18 +1,35 @@
 <template id="user-activity-overview">
   <app-layout>
-    <div>
-      <h3>Activities list </h3>
-      <ul>
-        <li v-for="activity in activities">
-          {{activity.id}}: {{activity.description}} for {{activity.duration}} minutes
-        </li>
-      </ul>
+    <div class="container mt-4">
+      <h3>Activities list</h3>
+
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Duration (minutes)</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr v-for="activity in activities" :key="activity.id">
+          <td>{{ activity.id }}</td>
+          <td>{{ activity.description }}</td>
+          <td>{{ activity.duration }}</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <p v-if="activities.length === 0">
+        No activities found for this user.
+      </p>
     </div>
   </app-layout>
 </template>
 
 <script>
-app.component("user-activity-overview",{
+app.component("user-activity-overview", {
   template: "#user-activity-overview",
   data: () => ({
     activities: [],

@@ -1,16 +1,33 @@
 <template id="user-overview">
   <app-layout>
-    <div>
-      <div>
-        <ul class="user-overview-list">
-          <li v-for="user in users">
-            <a :href="`/users/${user.id}`">{{user.name}} ({{user.email}})</a>
-          </li>
-        </ul>
-      </div>
+    <div class="container mt-4">
+      <h3>Registered Users</h3>
+
+      <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr v-for="user in users" :key="user.id">
+          <td>
+            <a :href="`/users/${user.id}`">{{ user.id }}</a>
+          </td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+        </tr>
+        </tbody>
+      </table>
+
+      <p v-if="users.length === 0">No users found.</p>
     </div>
   </app-layout>
 </template>
+
 <script>
 app.component("user-overview", {
   template: "#user-overview",
