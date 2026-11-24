@@ -1,29 +1,22 @@
-<template id="user-activity-overview">
+<template id="user-profile">
   <app-layout>
-    <div class="container mt-4">
-      <h3>Activities list</h3>
-
-      <table class="table table-striped table-bordered">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Description</th>
-          <th>Duration (minutes)</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr v-for="activity in activities" :key="activity.id">
-          <td>{{ activity.id }}</td>
-          <td>{{ activity.description }}</td>
-          <td>{{ activity.duration }}</td>
-        </tr>
-        </tbody>
-      </table>
-
-      <p v-if="activities.length === 0">
-        No activities found for this user.
-      </p>
+    <div class="card bg-light mb-3">
+      <div class="card-header">
+        User Profile
+      </div>
+      <div class="card-body">
+        <form v-if="user">
+          <label class="col-form-label">User ID: </label>
+          <input class="form-control" v-model="user.id" name="id" type="number" readonly/><br>
+          <label class="col-form-label">Name: </label>
+          <input class="form-control" v-model="user.name" name="username" type="text"/><br>
+          <label class="col-form-label">Email: </label>
+          <input class="form-control" v-model="user.email" name="email" type="email"/><br>
+          <div v-if="user">
+            <a :href="`/users/${user.id}/activities`">View User Activities</a>
+          </div>
+        </form>
+      </div>
     </div>
   </app-layout>
 </template>
